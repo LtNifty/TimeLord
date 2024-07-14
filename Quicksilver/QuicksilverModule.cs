@@ -187,9 +187,9 @@ namespace Quicksilver
         [HarmonyPatch(typeof(SpellPowerSlowTime), "Use")]
         class SpellPowerSlowTimePatch
         {
-            public static bool Prefix()
+            public static bool Prefix(bool active)
             {
-                if ((PlayerControl.handRight.usePressed || PlayerControl.handLeft.usePressed) && useCustomTimescale && useTimeLord && !inQuicksilver)
+                if ((PlayerControl.handRight.usePressed || PlayerControl.handLeft.usePressed) && useCustomTimescale && useTimeLord && !inQuicksilver && active)
                 {
                     originalSettings.timeScale = Player.currentCreature.mana.GetPowerSlowTime().scale;
                     Player.currentCreature.mana.GetPowerSlowTime().scale = customTimescale / 100f;
