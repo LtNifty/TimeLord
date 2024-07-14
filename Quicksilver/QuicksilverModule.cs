@@ -30,6 +30,26 @@ namespace Quicksilver
             return options;
         }
 
+        public static ModOptionFloat[] CustomTimescaleModOptions()
+        {
+            ModOptionFloat[] options = new ModOptionFloat[105];
+            float val = 0.005f;
+            for (int i = 0; i < options.Length; i++)
+            {
+                if (i < 5)
+                {
+                    options[i] = new ModOptionFloat(val.ToString("0.000"), val);
+                    val += 0.001f;
+                } 
+                else
+                {
+                    options[i] = new ModOptionFloat(val.ToString("0.00"), val);
+                    val += 0.01f;
+                }
+            }
+            return options;
+        }
+
         [ModOption(
             name: "Use Time Lord Mod", 
             tooltip: "Turns on/off the Time Lord mod.", 
@@ -85,8 +105,8 @@ namespace Quicksilver
             name: "Custom Timescale Percentage", 
             tooltip: "Determines the player's time scale for Quicksilver if they decide to use the custom timescale option.", 
             category = "Custom Timescale", 
-            valueSourceName = nameof(ZeroToOneHundered), 
-            defaultValueIndex = 50, 
+            valueSourceName = nameof(CustomTimescaleModOptions), 
+            defaultValueIndex = 54, 
             order = 1)]
         public static float customTimescale;
 
@@ -192,7 +212,7 @@ namespace Quicksilver
                 if ((PlayerControl.handRight.usePressed || PlayerControl.handLeft.usePressed) && useCustomTimescale && useTimeLord && !inQuicksilver && active)
                 {
                     originalSettings.timeScale = Player.currentCreature.mana.GetPowerSlowTime().scale;
-                    Player.currentCreature.mana.GetPowerSlowTime().scale = customTimescale / 100f;
+                    Player.currentCreature.mana.GetPowerSlowTime().scale = customTimescale;
                 }
                 return true;
             }
